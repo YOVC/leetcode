@@ -1,0 +1,54 @@
+class Solution {
+    public int[] searchRange(int[] nums, int target) {
+        return new int[]{findLeftNum(nums,target),findRightNum(nums,target)};  
+    }
+
+    int findLeftNum(int[] nums,int target){
+        if(nums.length==0){
+            return -1;
+        }
+        int left=0;
+        int right=nums.length;
+
+        while(left<right){
+            int mid=left+(right-left)/2;
+            if(target>nums[mid]){
+                left=mid+1;
+            }else if(target==nums[mid]){
+                right=mid;
+            }else if(target<nums[mid]){
+                right=mid;
+            }
+        }
+        if(left>=nums.length||target!=nums[left]){
+            return -1;
+        }
+        return left;
+    }
+
+
+     int findRightNum(int[] nums,int target){
+        if(nums.length==0){
+            return -1;
+        }
+        int left=0;
+        int right=nums.length;
+
+        while(left<right){
+            int mid=left+(right-left)/2;
+            if(target>nums[mid]){
+                left=mid+1;
+            }else if(target==nums[mid]){
+                left=mid+1;
+            }else if(target<nums[mid]){
+                right=mid;
+            }
+            }
+            if(left==0){
+                return -1;
+            }
+            return target==nums[left-1]?(left-1):-1;
+        }
+    
+    
+}
