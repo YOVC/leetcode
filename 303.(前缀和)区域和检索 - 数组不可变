@@ -1,0 +1,14 @@
+class NumArray {
+    private int[] prenums;
+    public NumArray(int[] nums) {
+        prenums=new int[nums.length+1];
+        prenums[0]=0;
+        for(int i=1;i<=nums.length;i++){
+            prenums[i]=prenums[i-1]+nums[i-1];
+        }
+    }
+    
+    public int sumRange(int left, int right) {
+        return prenums[right+1]-prenums[left];
+    }
+}
