@@ -1,0 +1,35 @@
+/**
+*暴力解题
+*/
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        int len = nums.length;
+
+        for(int i=0;i<len-1;i++){           //注意这里时 i<len-1  
+            for(int j=i+1;j<len;j++){
+                if(nums[i]+nums[j]==target){
+                    return new int[]{i,j};
+                }
+            }
+        }
+        throw new IllegalArgumentException("no tow sum solution");
+    }
+}
+
+/**
+*查找表法，消耗空间换取时间
+*/
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        int len = nums.length;
+        Map<Integer,Integer> map=new HashMap<>(len-1);        //注意指明map的大小，且大小为len-1
+        map.put(nums[0],0);                                      //key为nums的值，value为值在nums中的索引位置
+        for(int i=1;i<len;i++){
+            if(map.containsKey(target-nums[i])){
+                return new int[]{map.get(target-nums[i]),i};
+            }
+            map.put(nums[i],i);
+        }
+        throw new IllegalArgumentException("no tow sum solution");
+    }
+}
