@@ -1,0 +1,33 @@
+//方法一：双指针
+class Solution {
+    public int removeElement(int[] nums, int val) {
+        if(nums.length==0){
+            return 0;
+        }
+        int i=0;
+        for(int j=0;j<nums.length;j++){
+            if(nums[j]!=val){
+                nums[i]=nums[j];
+                i++;
+            }
+        }
+        return i;
+    }
+}
+
+//方法二：双指针优化
+class Solution {
+    public int removeElement(int[] nums, int val) {
+        int left=0;
+        int right=nums.length;
+        while(left<right){
+            if(nums[left]==val){
+                nums[left]=nums[right-1];
+                right--;
+            }else{
+                left++;
+            }
+        }
+        return left;
+    }
+}
