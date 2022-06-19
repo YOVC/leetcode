@@ -1,0 +1,80 @@
+import java.util.Scanner;
+public class AC4268 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int num = scanner.nextInt();
+        for(int i=num-6;i<=num+6;i+=12){
+            if(isPrime(num)&&isPrime(i)){
+                System.out.println("Yes");
+                System.out.println(i);
+                return;
+            }
+        }
+        System.out.println("No");
+        while (true){
+            num++;
+            if(isPrime(num)&&(isPrime(num-6)||isPrime(num+6))){
+                System.out.println(num);
+                break;
+            }
+        }
+
+    }
+    public static boolean isPrime(int num){
+        if(num <= 1){
+            return false;
+        }
+        for(int i = 2;i<=Math.sqrt(num);i++){
+            if (num % i == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+------------------------------------------------------
+
+import java.util.Scanner;
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int num = scanner.nextInt();
+        if(isPrime(num)) {
+            if(isPrime(num-6)){
+                System.out.println("Yes");
+                System.out.println(num-6);
+                return;
+            }
+            if(isPrime(num+6)){
+                System.out.println("Yes");
+                System.out.println(num+6);
+                return;
+            }
+        }
+
+        System.out.println("No");
+        while (true){
+            num++;
+            if(isPrime(num)&&(isPrime(num-6)||isPrime(num+6))){
+                System.out.println(num);
+                break;
+            }
+        }
+
+    }
+
+
+    public static boolean isPrime(int num){
+        if(num <= 1){
+            return false;
+        }
+        for(int i = 2;i<=Math.sqrt(num);i++){
+            if (num % i == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
+
