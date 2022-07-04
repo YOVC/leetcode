@@ -1,0 +1,43 @@
+package dayone.acing;
+
+public class FastSorted {
+    public static void main(String[] args) {
+        int[] arr = {4,6,3,8,2,7};
+        int[] ints = fastSorted(arr, 0, arr.length - 1);
+        for (int anInt : ints) {
+            System.out.print(anInt);
+        }
+    }
+
+    public static int[] fastSorted(int[] arr,int l,int r){
+        //1.判断边界
+        if(l >= r){
+            return arr;
+        }
+        //2.创建边界指针和分界值
+        int i = l - 1;      //取左边界左边一位
+        int j = r + 1;      //取右边界右边一位
+        int p = arr[(l+r)/2];  //取中间值为分界值
+
+        while (i<j){
+            do {
+                i++;
+            }while (arr[i]<p);
+
+            do {
+                j--;
+            }while (arr[j]>p);
+
+            if(i<j){
+                int temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+            }
+        }
+
+        fastSorted(arr,l,j);
+        fastSorted(arr,j+1,r);
+
+        return arr;
+    }
+}
