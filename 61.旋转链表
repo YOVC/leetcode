@@ -1,0 +1,40 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode rotateRight(ListNode head, int k) {
+        ListNode dummy = new ListNode(-1,head);
+        ListNode a = new ListNode(-1,head);
+        ListNode b = head;
+        int count = 0;
+        //计算链表长度
+        while(a.next!=null){
+            a = a.next;
+            count++;
+        }
+        //此时a指向链表尾部，b指向链表头部 如何链表长度为0，直接返回
+        if(count == 0){
+            return dummy.next;
+        }
+        int temp = k%count;
+        if(temp == 0 ){   //如果链表移动长度为0，直接返回
+            return dummy.next;
+        }
+
+        //将b指针挪动到指定的结点位置，该结点在链表旋转后将作为尾结点
+        for(int i = 1;i<count-temp;i++){
+            b=b.next;
+        }
+        a.next = dummy.next;  //将原尾结点指向头结点
+        dummy.next = b.next;    //将dummy指向旋转后的头节点
+        b.next = null;          //将旋转后的尾结点指向null
+        return dummy.next;
+    }
+}
