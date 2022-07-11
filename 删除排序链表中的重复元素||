@@ -1,0 +1,71 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode deleteDuplicates(ListNode head) {
+    //如果链表为空或者链表只有一个节点，直接返回结果
+        if(head == null || head.next == null){
+            return head;
+        }
+        //创建一个哑节点
+        ListNode dummy = new ListNode(-101,head);
+        //创建指针指向链表的哑节点
+        ListNode temp = dummy;
+        
+        while (temp.next != null && temp.next.next != null){
+            //如果当前节点的下一个节点的值和下下个节点的值相等，则记录相等节点的值，并且从下一个节点开始向后遍历，直到出现不相等的值，此时当前节点的下一个节点指向值不相等的节点
+            if (temp.next.val == temp.next.next.val){
+                int n = temp.next.val;
+                while (temp.next !=null && temp.next.val == n){
+                    temp.next = temp.next.next;
+                }
+            }else {
+            //如果下一个节点和下下个节点的值不相等，则指针指向下一个节点
+                temp = temp.next;
+            }
+        }
+        return dummy.next; //结果返回dummy.next,是因为最初temp的指针指向dummy，如果head节点未删除，显然返回dummy.next即可，
+                            //如果head节点被删除，那么temp指针在指向下一个节点之前，temp指向节点的next指针将会指向最后返回结果的头节点，此时dummy.next也将指向该节点
+        
+    }
+    
+    
+     public ListNode deleteDuplicates(ListNode head) {
+        if(head == null || head.next == null){
+            return head;
+        }
+        ListNode dummy = new ListNode(-101,head); //哑节点
+        ListNode fast = head;   //快指针指向头节点
+        ListNode slow = dummy;  //慢指针指向dummy
+        //如果快指针遍历结束，则返回结果
+        while (fast.next!=null){
+        //如果快指针指向的节点的值与下一个节点的值不相同
+            if(fast.val != fast.next.val){
+                //如果slow指针指向的下一个节点为空，fast指针指向下一个节点，slow指针的下一个节点指向fast
+                fast = fast.next;
+                //如果slow指针指向的下一个节点不为空，则slow节点也指向下一个节点，并直接进行下一次循环
+                if(slow.next != null){
+                    slow = slow.next;
+                    continue;
+                }
+                slow.next = fast;
+            }else {
+            //如果fast指针指向的节点的值等于下一个节点的值
+            //如果slow指针指向的下一个节点不为空，则slow指针指向的下一个节点变为空
+                if(slow.next != null){
+                    slow.next = null;
+                }
+                //如果slow指针指向的下一个节点为空，则fast指针指向下一个节点
+                fast = fast.next;
+            }
+        }
+        return dummy.next;
+    }
+}
