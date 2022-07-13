@@ -14,6 +14,7 @@ class Node {
 */
 
 class Solution {
+//迭代+哈希表
     public Node copyRandomList(Node head) {
         //链表为空直接返回
         if(head == null){
@@ -40,5 +41,48 @@ class Solution {
         }
         //返回头节点
         return map.get(head);
+        }
+        
+        
+        //迭代+节点拆分
+        public Node copyRandomList(Node head) {
+        //链表为空直接返回
+        if(head == null){
+            return null;
+          }
+        
+        //将原链表变为A->A`->B->B`->C->C`  其中A为原节点，A`为新节点
+        Node dummy = head;
+        while(dummy!=null){
+            Node node = new Node(dummy.val);
+            node.next = dummy.next;
+            dummy.next = node;
+            dummy = node.next;
+        }
+
+        //将新节点的随机指针指向对应新节点，新节点的随机指针指向即为原节点随机指针指向节点的下一个节点，注意考虑随机指针指向是否为空
+        dummy = head;
+        while(dummy!=null){
+            if(dummy.random == null){
+                dummy.next.random = null;
+            }else{
+                dummy.next.random = dummy.random.next;
+            }
+            dummy = dummy.next.next;
+        }
+        
+        //还原原链表，分离出新链表
+        dummy = head;
+        Node newNode = dummy.next; //记录头指针，方便返回结果
+        while(dummy!=null){
+            Node node = dummy.next;
+            dummy.next = node.next;
+            if(node.next!=null){
+                node.next = node.next.next;
+            }
+            dummy = dummy.next;
+        }
+        
+        return newNode;
         }
 }
