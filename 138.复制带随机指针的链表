@@ -1,0 +1,44 @@
+/*
+// Definition for a Node.
+class Node {
+    int val;
+    Node next;
+    Node random;
+
+    public Node(int val) {
+        this.val = val;
+        this.next = null;
+        this.random = null;
+    }
+}
+*/
+
+class Solution {
+    public Node copyRandomList(Node head) {
+        //链表为空直接返回
+        if(head == null){
+            return null;
+          }
+        //存放新建链表节点信息，key为原链表节点，value为对应新节点
+        Map<Node,Node> map = new HashMap<>();
+        //哑节点
+        Node dummy = head;
+        //循环原链表
+        while(dummy!=null){
+            map.put(dummy,new Node(dummy.val));
+            dummy = dummy.next;
+        }
+        dummy = head;
+        //再次循环原链表
+        while(dummy!=null){
+            //根据dummy获取对应新节点
+            Node node = map.get(dummy);
+            //设置新节点的下一个节点，根据dummy.next从map中获取，random同理，如果next或者random为null，取到的值也为null
+            node.next = map.get(dummy.next); 
+            node.random = map.get(dummy.random);
+            dummy = dummy.next;
+        }
+        //返回头节点
+        return map.get(head);
+        }
+}
