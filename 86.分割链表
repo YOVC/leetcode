@@ -1,0 +1,43 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode partition(ListNode head, int x) {
+        if(head == null || head.next == null){
+            return head;
+        }
+        //记录是否遇见比x大的节点，在未遇见这样的节点之前，每遍历一次，slow节点可直接向前移动，无需调换节点
+        int flag = 1;
+        ListNode slow = new ListNode(-1,head);
+        ListNode dummy = new ListNode(-1,head);
+        ListNode bigin = slow;//记录头节点，作为返回结果
+        while(dummy.next != null){
+            //如果dummy的下一个节点的值大于等于，那么直接跳过，并且标志变为0
+            if(dummy.next.val >= x){
+                dummy = dummy.next;
+                flag = 0;
+                continue;
+            }
+
+            //如果以上条件不满足，并且标志成立，则交换节点，交换节点后dummy不移动（因为交换节点后dummy的下一个节点已经改变），slow节点移动
+            if(flag == 0){
+                ListNode node = slow.next;
+                slow.next = dummy.next;
+                dummy.next = dummy.next.next;
+                slow.next.next = node;
+            }else{
+                dummy = dummy.next;
+            }
+            
+            slow = slow.next;
+        }
+        return bigin.next;
+    }
+}
