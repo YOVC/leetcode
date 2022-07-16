@@ -1,0 +1,59 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public void reorderList(ListNode head) {
+        
+        if(head.next == null || head.next.next == null){
+            return;
+        }
+        //找链表后半部分链表头节点
+        int count = 0;
+        ListNode dummy  = head;
+        while(dummy != null){
+            count++;
+            dummy = dummy.next;
+        }
+        count = count - count/2;
+        dummy = head;
+        for(int i=1;i<=count;i++){
+            dummy = dummy.next;
+        }
+        
+        //反转链表
+        ListNode pre = null;
+        ListNode next = null;
+        while(dummy != null){
+            next = dummy.next;
+            dummy.next = pre;
+            pre = dummy;
+            dummy = next;
+        }
+        //以上代码解释请见234.回文链表
+      
+        //将两段链表合并
+        ListNode node = new ListNode(0);
+        dummy = head;
+        while(pre != null){
+            node = pre.next;
+            pre.next = dummy.next;
+            dummy.next = pre;
+            dummy = pre.next;
+            pre = node;
+        }
+        //假如当链表节点数为奇数的时候，最后一个节点为前半部分节点的最后一个节点，它不会和后半部分的某个节点进行相连，所以它在上述代码结束后任然指向原链表的某个节点
+        //为了防止形成环，我们将它的下一个指向为null
+        
+        if(dummy != null){
+            dummy.next = null;
+        }
+        
+    }
+}
