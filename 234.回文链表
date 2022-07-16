@@ -1,0 +1,56 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public boolean isPalindrome(ListNode head) {
+        if(head.next == null){
+            return true;
+        }
+
+        //计算链表的长度
+        int count  = 0;
+        ListNode dummy = head;
+        while(dummy != null){
+            count++;
+            dummy = dummy.next;
+       }
+
+        //计算移动到后半部分链表头部的距离，假如原链表数量为偶数，相当于移动一半，若为奇数，则相当于移动一半多一个中间节点
+        //由于整形相除结果去掉小数部分，因此我们拿count - count/2，便于得到结果
+         count = count - count/2;
+
+        //将dummt移动到链表后半部的头节点
+        dummy = head;
+        for(int i = 1;i<=count;i++){
+            dummy = dummy.next;
+        }
+
+        //将后半部分链表反转，反转后，后半部分的链表头节点为pre
+        ListNode pre = null;
+        ListNode next = null;
+        while(dummy != null){
+            next = dummy.next;
+            dummy.next = pre;
+            pre = dummy;
+            dummy = next;
+        }
+
+        //将反转后的后半部分链表和原链表的前半部分链表进行比对，这里如果是奇数，我们也不会比对中间节点
+        while(pre != null){
+            if(pre.val != head.val){
+                return false;
+            }
+            pre = pre.next;
+            head = head.next;
+        }
+
+        return true;
+    }
+}
