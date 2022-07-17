@@ -1,0 +1,34 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public ListNode deleteNode(ListNode head, int val) {
+    
+        //删除的可能是头节点，将头节点移动到第一个不被删除的位置
+        while(head != null){
+            if(head.val != val){
+                break;
+            }
+            head = head.next;
+        }
+
+        ListNode dummy = head;
+        ListNode pre = new ListNode(0);
+        while(dummy != null){
+            if(dummy.val == val){
+                pre.next = dummy.next;
+                break;
+            }else{
+                pre = dummy;
+                dummy = dummy.next;
+            }
+        }
+
+        return head;
+    }
+}
