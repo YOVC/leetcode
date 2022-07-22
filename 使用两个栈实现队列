@@ -1,0 +1,50 @@
+mport java.util.Stack;
+
+public class TwoStackQueue {
+    private Stack<Integer> pushStack;
+    private Stack<Integer> popStack;
+
+
+    public TwoStackQueue(){
+        pushStack = new Stack<>();
+        popStack = new Stack<>();
+    }
+
+
+    //向push栈中添加数据，也就是向队列中添加数据
+    public void push(int value){
+        pushStack.push(value);
+        pushToPop();
+    }
+
+    //返回队列的头元素，但是并不删除头元素
+    public int peek(){
+        if(isEmpty()){
+            throw new RuntimeException("队列为空");
+        }
+        pushToPop();
+        return popStack.peek();  //获取栈顶元素，但是并没有删除栈顶元素
+    }
+
+    //取出队列的头数据，并删除
+    public int poll(){
+        if(isEmpty()){
+            throw new RuntimeException("队列为空");
+        }
+        pushToPop();
+        return popStack.pop();
+    }
+
+    //将push栈中的数据存储到pop栈中，只有当pop栈为空时候才可以进行，并且每次进行push栈的所有数据都必须存储到pop栈中
+    public void pushToPop(){
+        if(popStack.isEmpty()){
+            while (!pushStack.isEmpty()){
+                popStack.push(pushStack.pop());  //pop方法取出栈顶元素并删除
+            }
+        }
+
+    }
+    //判断队列是否为空
+    public boolean isEmpty(){
+        return popStack.isEmpty() && pushStack.isEmpty();
+    }
