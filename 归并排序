@@ -47,3 +47,43 @@ public static void mergeSort(int[] arr){
             arr[l + i] = help[i];
         }
     }
+    
+    
+    
+    public static void mergeSort2(int[] arr){
+        //如果数组为null，或者数组长度为小于2，直接返回
+        if(arr == null || arr.length < 2){
+            return;
+        }
+
+        //左侧已排序数组长度
+        int mergeSize = 1;
+        //数组长度
+        int N = arr.length;
+        //当左侧已排序数组长度大于等于数组长度时，则代表数组已经排序好
+        while (mergeSize < N){
+            //记录左侧边界
+            int L = 0;
+            //如果左侧边界超出数组长度，则此轮循环结束
+            while (L < N){
+                //左侧已排序数组和右侧已排序数组的分界点，中点，属于右侧节点
+                int M = L + mergeSize -1;
+                //如果分界点已经到达数组的边界，左侧肯定都是已经排好序的，右侧没有数据，所以可以直接结束
+                if (M >= N-1){
+                    break;
+                }
+
+                //右侧边界，如果未参与排序的数据量大于等于mergeSize，则R右侧边界就取M分界点向右偏移mergeSize大小的位置，否则就取数组边界位置
+                int R = Math.min(M + mergeSize,N - 1);
+                //左侧数据与右侧数据进行排序
+                merge(arr,L,R,M);
+                L = R + 1;
+            }
+
+            //这里不取大于等于是因为当N/2为小数的时候，会舍去小数部分
+            if(mergeSize > N/2){
+                return;
+            }
+            mergeSize = mergeSize << 1;
+        }
+    }
